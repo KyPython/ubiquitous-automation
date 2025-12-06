@@ -2,6 +2,9 @@
 
 > **"Automate Everything You Can"** - The Pragmatic Programmer
 
+[![CI](https://github.com/KyPython/ubiquitous-automation/actions/workflows/ci.yml/badge.svg)](https://github.com/KyPython/ubiquitous-automation/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 This project demonstrates **Ubiquitous Automation** principles from [The Pragmatic Programmer](https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/) by Hunt & Thomas. It showcases how to automate routine development tasks and establish continuous integration practices.
 
 ## 🎯 What is Ubiquitous Automation?
@@ -214,6 +217,47 @@ This is a demo project, but contributions are welcome! When contributing:
 1. Run `./scripts/pre-commit.sh` before committing
 2. Ensure all tests pass
 3. Follow the existing code style
+
+## 🌐 Deployment
+
+This project is configured for deployment to [Vercel](https://vercel.com), providing automatic deployments from GitHub.
+
+### Automatic Deployment Setup
+
+1. **Connect to Vercel**:
+   - Visit [vercel.com](https://vercel.com)
+   - Sign in with your GitHub account
+   - Click "Import Project"
+   - Select the `ubiquitous-automation` repository
+   - Vercel will automatically detect the configuration
+
+2. **Deploy**:
+   - Click "Deploy"
+   - Your app will be live at `https://ubiquitous-automation.vercel.app`
+   - Every push to `main` will trigger a new deployment
+
+### API Endpoints
+
+Once deployed, the following endpoints are available:
+
+- **`/api`** - Main API information
+- **`/api/health`** - Health check endpoint
+- **`/api/demo`** - Demo endpoint showcasing application features
+
+### Manual Deployment
+
+You can also deploy manually using the Vercel CLI:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Deploy to production
+vercel --prod
+```
 
 ## 📝 License
 
