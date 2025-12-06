@@ -4,7 +4,9 @@ coverage/
 *.log
 .DS_Store
 .env
+.env.local
 *.swp
 *.swo
 *~
+.vercel
 
