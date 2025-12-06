@@ -1,7 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { Calculator } from '../src/app/calculator';
-import { Greeter } from '../src/app/greeter';
-import { TaskRunner } from '../src/app/task-runner';
+import { Calculator } from './calculator';
+import { Greeter } from './greeter';
+import { TaskRunner } from './task-runner';
 
 /**
  * Demo endpoint showcasing the application features
