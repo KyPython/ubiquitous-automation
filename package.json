@@ -11,9 +11,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts",
-    "generate:checklist": "node scripts/generate-pdf-checklist.js",
-    "setup:checklist": "./scripts/setup-checklist-workflow.sh"
+    "dev": "ts-node src/index.ts"
   },
   "keywords": [
     "automation",
@@ -38,6 +36,5 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "resend": "^6.5.2"
   }
 }
