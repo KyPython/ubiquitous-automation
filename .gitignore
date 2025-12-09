@@ -10,3 +10,19 @@ coverage/
 *~
 .vercel
 
+# Business Materials (Private - Not for public)
+BUSINESS_MATERIALS/
+OPERATIONS/
+SALES/
+ONBOARDING/
+MARKETING/
+TECHNICAL/
+README_HANDOFF.md
+
+# Client-specific files (if any)
+clients/
+*.client.md
+*_client_*
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.cursor/rules/snyk_rules.mdc

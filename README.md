@@ -241,8 +241,35 @@ This project is configured for deployment to [Vercel](https://vercel.com), provi
 Once deployed, the following endpoints are available:
 
 - **`/api`** - Main API information
-- **`/api/health`** - Health check endpoint
+- **`/api/health`** - Enhanced health check with system metrics
 - **`/api/demo`** - Demo endpoint showcasing application features
+- **`/api/monitor`** - Monitoring and observability endpoint
+
+### Error Handling & Monitoring
+
+This project includes comprehensive error handling and monitoring:
+
+- **Error Handling**: All endpoints use centralized error handling with proper error codes and status codes
+- **Input Validation**: Request validation with detailed error messages
+- **Logging**: Structured logging with different log levels (DEBUG, INFO, WARN, ERROR)
+- **Monitoring**: Request metrics, system metrics, and error tracking
+- **Health Checks**: Enhanced health endpoint with memory usage, uptime, and request statistics
+
+#### Monitoring Endpoint Usage
+
+```bash
+# Get system metrics
+GET /api/monitor?action=metrics
+
+# Get recent logs
+GET /api/monitor?action=logs&level=ERROR&limit=50
+
+# Get recent requests
+GET /api/monitor?action=requests&limit=100
+
+# Reset monitoring (requires token)
+GET /api/monitor?action=reset&token=YOUR_TOKEN
+```
 
 ### Manual Deployment
 
@@ -258,6 +285,25 @@ vercel
 # Deploy to production
 vercel --prod
 ```
+
+## 💼 DevOps Productivity Suite
+
+This project is part of the **DevOps Productivity Suite** - a comprehensive package combining 5 production-ready DevOps tools:
+
+- **Shell Games Toolkit** - Automation scripts
+- **Ubiquitous Automation** (this project) - CI/CD pipelines
+- **Git Workflows Sample** - Source control best practices
+- **Code Generator Tool** - Boilerplate generation
+- **Software Entropy** - Code quality scanner
+
+**Package Details:** $2,997 setup + $297/month  
+**Includes:** Custom configuration, team training, documentation, ongoing support
+
+📖 See `DEVOPS_PRODUCTIVITY_SUITE.md` for complete package information.  
+📋 Quick reference: `PACKAGE_QUICK_REFERENCE.md`  
+📅 Book a call: https://calendly.com/kyjahn-smith/consultation
+
+---
 
 ## 📝 License
 
