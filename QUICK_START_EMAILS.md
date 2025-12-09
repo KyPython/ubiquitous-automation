@@ -15,10 +15,12 @@ Your email automation is **already built** in Node.js. You just need to add your
 3. Add these variables:
 
 ```
-RESEND_API_KEY = re_KaMJaBtJ_J6S6rgnLGLPJAfd3i8kS6dGx
+RESEND_API_KEY = re_xxxxxxxxxxxxx
 FROM_EMAIL = onboarding@resend.dev
 FROM_NAME = DevOps Productivity Suite
 ```
+
+**⚠️ SECURITY WARNING:** Never hardcode your API key in code! Always use environment variables.
 
 4. Click **"Save"**
 5. **Redeploy** your project (or it will auto-deploy on next push)
