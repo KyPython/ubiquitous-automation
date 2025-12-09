@@ -48,11 +48,17 @@ Set environment variables in Vercel dashboard. They will be available to your se
 
 ## HubSpot Workflow Setup
 
-After contacts are created, set up a HubSpot workflow to:
+After contacts are created, set up HubSpot workflows to:
 
-1. **Trigger**: When contact is created/updated
-2. **Condition**: If "devops_checklist_downloaded" property is true
-3. **Action**: Send email with checklist PDF attachment
+1. **Email Sequence Workflow**: Automatically sends 5 emails over 2 weeks
+   - See `HUBSPOT_EMAIL_SEQUENCE_SETUP.md` for complete setup instructions
+   - Triggers when `devops_checklist_downloaded` = `true`
+   - Sends emails on Day 1, 3, 6, 10, and 14
+
+2. **Welcome Email Workflow** (Optional): Send checklist PDF immediately
+   - Trigger: When contact is created/updated
+   - Condition: If "devops_checklist_downloaded" property is true
+   - Action: Send email with checklist PDF attachment
 
 ## Troubleshooting
 

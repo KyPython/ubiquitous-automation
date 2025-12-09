@@ -76,9 +76,11 @@ async function submitToHubSpot(email: string, firstname: string): Promise<{ cont
       properties: {
         email: email,
         firstname: firstname,
-        // Add custom properties if needed
-        // 'devops_checklist_downloaded': 'true',
-        // 'lead_source': 'landing_page'
+        // Trigger email sequence workflow
+        'devops_checklist_downloaded': 'true',
+        'lead_source': 'landing_page',
+        'email_sequence_started': 'true',
+        'email_sequence_date': new Date().toISOString()
       }
     };
 
@@ -169,7 +171,11 @@ async function updateHubSpotContact(
       body: JSON.stringify({
         properties: {
           firstname: firstname,
-          // 'devops_checklist_downloaded': 'true'
+          // Trigger email sequence if not already started
+          'devops_checklist_downloaded': 'true',
+          'lead_source': 'landing_page',
+          'email_sequence_started': 'true',
+          'email_sequence_date': new Date().toISOString()
         }
       })
     });
