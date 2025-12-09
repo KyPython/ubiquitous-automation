@@ -11,14 +11,6 @@ coverage/
 *~
 .vercel
 
-# Business Materials (Private - Not for public)
-BUSINESS_MATERIALS/
-OPERATIONS/
-SALES/
-ONBOARDING/
-MARKETING/
-TECHNICAL/
-README_HANDOFF.md
 
 # Client-specific files (if any)
 clients/
