@@ -11,7 +11,9 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
+    "dev": "ts-node src/index.ts",
+    "generate:checklist": "node scripts/generate-pdf-checklist.js",
+    "setup:checklist": "./scripts/setup-checklist-workflow.sh"
   },
   "keywords": [
     "automation",
@@ -29,10 +31,10 @@
     "@vercel/node": "^3.0.11",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
+    "markdown-pdf": "^11.0.0",
+    "puppeteer": "^24.32.1",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
-  },
-  "dependencies": {}
+  }
 }
-
