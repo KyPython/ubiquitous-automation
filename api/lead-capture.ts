@@ -3,6 +3,7 @@ import { withMonitoring } from './utils/middleware';
 import { logger } from './utils/logger';
 import { validateString, validateRequired } from './utils/validator';
 import { AppError, ErrorCode } from './utils/error-handler';
+import { emailQueueService } from './services/email-queue';
 
 /**
  * Lead capture endpoint that submits to HubSpot and sends email
@@ -31,11 +32,24 @@ export default withMonitoring(async (req: VercelRequest, res: VercelResponse) =>
 
     logger.info('Lead capture request', { email, firstname });
 
-    // Submit to HubSpot
-    const hubspotResult = await submitToHubSpot(email, firstname);
+    // Submit to HubSpot (if configured)
+    let hubspotResult;
+    try {
+      hubspotResult = await submitToHubSpot(email, firstname);
+      logger.info('HubSpot contact created', { email, hubspotContactId: hubspotResult.contactId });
+    } catch (error) {
+      logger.warn('HubSpot submission failed, continuing with email sequence', { error });
+      hubspotResult = { contactId: 'hubspot-unavailable' };
+    }
     
-    // Track in HubSpot analytics (if script is loaded on frontend)
-    // The frontend will handle this via _hsq
+    // Start email sequence (works independently of HubSpot)
+    try {
+      await emailQueueService.scheduleEmailSequence(email, firstname);
+      logger.info('Email sequence scheduled', { email });
+    } catch (error) {
+      logger.error('Failed to schedule email sequence', error as Error, { email });
+      // Don't fail the request if email scheduling fails
+    }
 
     logger.info('Lead captured successfully', { email, hubspotContactId: hubspotResult.contactId });
 
