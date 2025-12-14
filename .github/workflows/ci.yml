@@ -7,13 +7,36 @@ on:
     branches: [ main, develop ]
 
 jobs:
+  # Stage 1: Fast checks (lint only) - fail immediately on style issues
+  lint:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Run linter
+        run: make lint
+
+  # Stage 2: Unit tests - only runs if lint passes
   test:
-    name: Test and Lint
+    name: Unit Tests
+    needs: lint
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [18.x, 20.x]
+      fail-fast: true  # Stop all jobs if one fails
 
     steps:
       - name: Checkout code
@@ -26,16 +49,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Run linter
-        run: npm run lint
+        run: make install
 
       - name: Run tests
-        run: npm run test
-
-      - name: Build project
-        run: npm run build
+        run: make test
 
       - name: Upload coverage reports
         if: matrix.node-version == '20.x'
@@ -44,8 +61,10 @@ jobs:
           files: ./coverage/lcov.info
           fail_ci_if_error: false
 
+  # Stage 3: Build verification - only runs if tests pass
   build:
     name: Build Verification
+    needs: test
     runs-on: ubuntu-latest
 
     steps:
@@ -59,10 +78,10 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: make install
 
       - name: Build project
-        run: npm run build
+        run: make build
 
       - name: Verify build artifacts
         run: |
