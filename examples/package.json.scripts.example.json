@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "test:all": "./scripts/test-all.sh",
+    "test:watch": "./scripts/test-all.sh --watch",
+    "test:coverage": "./scripts/test-all.sh --coverage",
+    "lint": "./scripts/lint-and-test.sh lint",
+    "lint:fix": "./scripts/lint-and-test.sh lint --fix",
+    "lint:test": "./scripts/lint-and-test.sh",
+    "lint:changed": "./scripts/lint-and-test.sh --changed",
+    "pre-commit": "./scripts/pre-commit.sh",
+    "pre-commit:fix": "./scripts/pre-commit.sh --fix"
+  }
+}

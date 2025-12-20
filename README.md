@@ -99,6 +99,23 @@ npm run lint
 npm run lint:fix
 ```
 
+### NPM Script Integration
+
+All scripts are available as npm commands. See [examples/package.json.scripts.example.json](./examples/package.json.scripts.example.json) for a complete template.
+
+**Quick Setup:**
+Copy the scripts from the example file to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "test:all": "./scripts/test-all.sh",
+    "lint:test": "./scripts/lint-and-test.sh",
+    "pre-commit": "./scripts/pre-commit.sh"
+  }
+}
+```
+
 ### Quality Checks
 
 All scripts follow the `tool:action` naming pattern for consistency:
@@ -331,6 +348,13 @@ Enable explicitly with `--multi-service` flag:
 ```
 
 ### CI/CD Integration
+
+**GitHub Actions Example:**
+See [.github/workflows/example.yml](./.github/workflows/example.yml) for a complete workflow example that demonstrates:
+- Lint and test jobs
+- Pre-commit checks on pull requests
+- Multi-job workflows
+- CI mode detection
 
 Scripts automatically detect CI environments (GitHub Actions, GitLab CI, Jenkins, etc.) and:
 - Use appropriate git diff strategies
