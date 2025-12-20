@@ -82,8 +82,11 @@ npm test
 # Watch mode
 npm run test:watch
 
-# Run all checks (lint + test + build)
+# Run all checks (lint + test + build) - Enhanced with caching & parallel execution
 npm run test:all
+
+# Quick lint + test (incremental, only changed files)
+npm run lint:test
 ```
 
 ### Linting
@@ -94,6 +97,73 @@ npm run lint
 
 # Auto-fix issues
 npm run lint:fix
+```
+
+### Quality Checks
+
+All scripts follow the `tool:action` naming pattern for consistency:
+
+```bash
+# Comprehensive quality check (lint + test + build)
+npm run quality:check
+
+# Quick lint and test
+npm run quality:lint
+
+# Pre-commit checks (with caching and selective checks)
+npm run pre-commit
+
+# Git workflow helper
+npm run git:pre-commit
+```
+
+### Advanced Script Options
+
+The enhanced scripts support several command-line options:
+
+**test-all.sh:**
+```bash
+# Auto-detect test frameworks, run in parallel
+./scripts/test-all.sh
+
+# Disable parallel execution
+./scripts/test-all.sh --no-parallel
+
+# Run specific test pattern
+./scripts/test-all.sh --pattern="calculator"
+
+# Enable multi-service/monorepo mode
+./scripts/test-all.sh --multi-service
+
+# Disable coverage reports
+./scripts/test-all.sh --no-coverage
+```
+
+**lint-and-test.sh:**
+```bash
+# Incremental (only changed files)
+./scripts/lint-and-test.sh
+
+# Watch mode for development
+./scripts/lint-and-test.sh --watch
+
+# Lint all files (not just changed)
+./scripts/lint-and-test.sh --all
+
+# Run only linting
+./scripts/lint-and-test.sh --lint-only
+
+# Run only tests
+./scripts/lint-and-test.sh --test-only
+```
+
+**pre-commit.sh:**
+```bash
+# Uses .pre-commit-config.json if present
+./scripts/pre-commit.sh
+
+# Custom config file
+PRE_COMMIT_CONFIG=my-config.json ./scripts/pre-commit.sh
 ```
 
 ## 🤖 Automation at Every Level
@@ -131,17 +201,30 @@ make pre-commit   # Fast pre-commit checks
 make clean        # Clean artifacts
 ```
 
-### Layer 3: Shell Scripts (Legacy)
+### Layer 3: Enhanced Shell Scripts
 
-The `scripts/` directory contains legacy shell scripts (now replaced by Makefile):
+The `scripts/` directory contains enhanced automation scripts with advanced features:
+
+**Key Features:**
+- ✅ **CI-Friendly**: Auto-detects CI environment, graceful failures for optional checks
+- ✅ **Multi-Service Support**: Automatically detects and handles monorepo structures
+- ✅ **Caching**: Intelligent caching to avoid re-running unchanged checks
+- ✅ **Parallel Execution**: Runs independent checks in parallel for speed
+- ✅ **Incremental**: Only checks changed files by default
+- ✅ **Configurable**: Support for `.pre-commit-config.json` customization
 
 ```bash
-./scripts/test-all.sh      # Use: make all
-./scripts/lint-and-test.sh # Use: make pre-commit
-./scripts/pre-commit.sh    # Use: git hooks (automatic)
+# Run all checks (with caching, parallel execution)
+./scripts/test-all.sh
+
+# Quick lint + test (incremental)
+./scripts/lint-and-test.sh
+
+# Pre-commit checks (selective, cached)
+./scripts/pre-commit.sh
 ```
 
-**💡 Recommendation:** Use `make` commands for better portability across CI platforms.
+**💡 Recommendation:** Use `npm run` scripts for convenience, or `make` commands for better portability across CI platforms.
 
 ## 🔄 Continuous Integration
 
@@ -220,12 +303,54 @@ See `AUTOMATION_ALIGNMENT.md` for complete analysis of how this project implemen
 
 ## 🔧 Customization
 
+### Pre-commit Configuration
+
+Customize pre-commit behavior by creating `.pre-commit-config.json`:
+
+```json
+{
+  "run_lint": true,
+  "run_test": true,
+  "run_build": true,
+  "parallel": true,
+  "cache": true
+}
+```
+
+Copy `.pre-commit-config.json.example` to get started.
+
+### Multi-Service/Monorepo Support
+
+The scripts automatically detect multiple services in:
+- `frontend/`, `backend/`, `api/`, `services/`, `packages/`, `apps/` directories
+- Any subdirectory with `package.json`, `pyproject.toml`, `Cargo.toml`, or `go.mod`
+
+Enable explicitly with `--multi-service` flag:
+```bash
+./scripts/test-all.sh --multi-service
+```
+
+### CI/CD Integration
+
+Scripts automatically detect CI environments (GitHub Actions, GitLab CI, Jenkins, etc.) and:
+- Use appropriate git diff strategies
+- Make scripts executable automatically
+- Provide CI-friendly output (GitHub Actions annotations)
+- Handle graceful failures for optional checks
+
+**Environment Variables:**
+- `CI=true` - Force CI mode
+- `CI_PARALLEL=false` - Disable parallel execution in CI
+- `MULTI_SERVICE=true` - Enable multi-service mode
+- `CACHE_DIR=.custom-cache` - Custom cache directory
+- `PRE_COMMIT_CONFIG=config.json` - Custom config file
+
 ### Adding New Tasks
 
-1. **Add NPM script** in `package.json`:
+1. **Add NPM script** in `package.json` (follow `tool:action` pattern):
    ```json
    "scripts": {
-     "your-task": "your-command"
+     "tool:action": "./scripts/your-script.sh"
    }
    ```
 

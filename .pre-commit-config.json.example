@@ -1,0 +1,8 @@
+{
+  "run_lint": true,
+  "run_test": true,
+  "run_build": true,
+  "parallel": true,
+  "cache": true,
+  "comment": "Copy this file to .pre-commit-config.json to customize pre-commit behavior"
+}
