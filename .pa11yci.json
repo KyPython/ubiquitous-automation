@@ -1,0 +1,18 @@
+{
+  "defaults": {
+    "timeout": 30000,
+    "wait": 2000,
+    "standard": "WCAG2AA",
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+    },
+    "reporter": "cli"
+  },
+  "urls": [
+    {
+      "url": "http://localhost:3000/",
+      "name": "Home Page"
+    }
+  ]
+}
+

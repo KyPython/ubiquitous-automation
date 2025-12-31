@@ -22,6 +22,7 @@ This demo puts these principles into practice by automating:
 - ✅ **Testing** - Automated test execution
 - ✅ **Linting** - Code quality checks
 - ✅ **Building** - Compilation and artifact generation
+- ✅ **Accessibility** - Automated accessibility testing (WCAG 2.1 AA)
 - ✅ **CI/CD** - Continuous Integration via GitHub Actions
 
 ## 📁 Project Structure
@@ -88,6 +89,26 @@ npm run test:all
 # Quick lint + test (incremental, only changed files)
 npm run lint:test
 ```
+
+### Accessibility Testing
+
+This project includes automated accessibility testing to ensure WCAG 2.1 AA compliance:
+
+```bash
+# Start local server (required for accessibility tests)
+npm run serve
+
+# Run accessibility tests with pa11y-ci (recommended for CI/CD)
+npm run test:a11y
+
+# Run accessibility tests with custom TypeScript script
+npm run test:a11y:local
+
+# Run accessibility tests with axe-core CLI
+npm run test:a11y:axe
+```
+
+Accessibility tests run automatically in the CI/CD pipeline on every push and pull request. See the [Accessibility Testing](#accessibility-testing) section for more details.
 
 ### Linting
 
@@ -245,7 +266,7 @@ The `scripts/` directory contains enhanced automation scripts with advanced feat
 
 ## 🔄 Continuous Integration
 
-The project implements a **three-stage fail-fast CI pipeline** (`.github/workflows/ci.yml`):
+The project implements a **four-stage fail-fast CI pipeline** (`.github/workflows/ci.yml`):
 
 ### Pipeline Structure
 
@@ -255,6 +276,8 @@ Stage 1: Code Quality (Lint) - ~30s
 Stage 2: Unit Tests (Node 18.x, 20.x) - ~2min
     ↓ (only if pass)
 Stage 3: Build Verification - ~30s
+    ↓ (only if pass)
+Stage 4: Accessibility Checks - ~1min (runs in parallel)
 ```
 
 ### Fail-Fast Benefits
@@ -263,6 +286,7 @@ Stage 3: Build Verification - ~30s
 - ✅ **No wasted compute** - tests only run if lint passes
 - ✅ **Matrix fail-fast** - all jobs stop if one fails
 - ✅ **Fast feedback** - ~3-4 minutes total, ~30s on lint failure
+- ✅ **Accessibility** - Automated WCAG 2.1 AA compliance checks
 
 ### CI Workflow Triggers
 
@@ -389,6 +413,73 @@ Edit `.github/workflows/ci.yml` to add:
 - Deployment steps
 - Security scans
 - Performance tests
+- Accessibility checks (already included!)
+
+## ♿ Accessibility Testing
+
+This project includes automated accessibility testing to ensure WCAG 2.1 AA compliance. Accessibility checks are integrated into the CI/CD pipeline and can be run locally.
+
+### Running Accessibility Tests Locally
+
+**Prerequisites:**
+1. Install dependencies: `npm install`
+2. Start a local server: `npm run serve` (runs on `http://localhost:3000`)
+
+**Test Options:**
+
+1. **pa11y-ci** (Recommended for CI/CD):
+   ```bash
+   npm run test:a11y
+   ```
+   Uses `.pa11yci.json` configuration and tests all pages defined in the config.
+
+2. **Custom TypeScript Script**:
+   ```bash
+   npm run test:a11y:local
+   ```
+   Provides detailed summary and error reporting.
+
+3. **axe-core CLI**:
+   ```bash
+   npm run test:a11y:axe
+   ```
+   Uses `@axe-core/cli` with `.axerc.json` configuration.
+
+### CI/CD Integration
+
+Accessibility tests run automatically in GitHub Actions on:
+- Every push to `main` or `develop` branches
+- Every pull request to `main` or `develop` branches
+
+The workflow:
+1. Builds the project
+2. Starts a local server
+3. Runs accessibility tests using `pa11y-ci`
+4. Uploads test results as artifacts
+
+### Accessibility Standards
+
+Tests are configured to check against **WCAG 2.1 AA** standards, which include:
+- Color contrast requirements
+- Keyboard navigation
+- Screen reader compatibility
+- Semantic HTML structure
+- Form labels and inputs
+- Image alt text
+- Heading hierarchy
+- And more...
+
+### Configuration Files
+
+- `.pa11yci.json` - Configuration for pa11y-ci (used in CI/CD)
+- `.axerc.json` - Configuration for axe-core CLI (alternative tool)
+- `scripts/test-accessibility.ts` - Custom TypeScript test script
+
+### Resources
+
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [pa11y Documentation](https://pa11y.org/)
+- [axe-core Documentation](https://github.com/dequelabs/axe-core)
 
 ## 📖 Learn More
 
@@ -396,14 +487,17 @@ Edit `.github/workflows/ci.yml` to add:
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Jest Testing Framework](https://jestjs.io/)
 - [ESLint](https://eslint.org/)
+- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
+- [pa11y Documentation](https://pa11y.org/)
 
 ## 🤝 Contributing
 
 This is a demo project, but contributions are welcome! When contributing:
 
 1. Run `./scripts/pre-commit.sh` before committing
-2. Ensure all tests pass
+2. Ensure all tests pass (including accessibility tests)
 3. Follow the existing code style
+4. Verify accessibility: `npm run serve` then `npm run test:a11y`
 
 ## 🌐 Deployment
 
